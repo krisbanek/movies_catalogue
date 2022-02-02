@@ -6,16 +6,27 @@
     <div class="col-lg-12 text-center">
         <h1 class="mt-5">Witaj w mojej bibliotece filmów</h1>
         <p class="lead">Znajdziesz tutaj tylko najlepsze tytuły!</p>
+    </div> 
+    <div class="col-lg-12 mb-4">
+        {% for list in movie_lists %} 
+            {% if list_type == list %}
+                <a href="{{ url_for('homepage', list_type=list) }}" class="btn btn-outline-info active">{{ list|capitalize|replace("_", " ") }}</a>    
+            {% else %}
+                <a href="{{ url_for('homepage', list_type=list) }}" class="btn btn-outline-info">{{ list|capitalize|replace("_", " ") }}</a>        
+            {% endif %}
+        {% endfor %}
     </div>
+    
+   
 {% for movie in movies %}
 <div class="col-lg-4 col-md-8 mb-4">
      <div class="card h-100">
-         <img class="card-img-top" src="http://placehold.it/400x500" alt="">
+         <img src="{{ tmdb_image_url(movie.poster_path, "w342") }}">
          <div class="card-body">
-             <h4 class="card-title">{{ movie }}</h4>
+             <h4 class="card-title">{{ movie.title }}</h4>
          </div>
          <div class="card-footer text-center">
-             <a href="#" class="btn btn-primary">Pokaż więcej</a>
+             <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="btn btn-primary">Pokaż więcej</a>
          </div>
      </div>
     </div>
