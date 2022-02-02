@@ -1,3 +1,4 @@
+from distutils.log import error
 from flask import Flask, render_template, request
 from faker import Faker
 import tmdb_client
@@ -7,17 +8,15 @@ from random import shuffle
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def homepage():
-    movie_lists = ["latests", "now_playing", "popular", "top_rated", "upcoming"]
+    movie_lists = ["now_playing", "popular", "top_rated", "upcoming"]
     selected_list = request.args.get('list_type',"popular")
+    if selected_list not in movie_lists:
+        selected_list = "popular"         
     movies = tmdb_client.get_movies(how_many=6, list_type=selected_list)
     #shuffle(movies)
-    return render_template("homepage.html", movies=movies, movie_lists=movie_lists)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return render_template("homepage.html", movies=movies, movie_lists=movie_lists, list_type=selected_list)
 
 @app.context_processor
 def utility_processor():
@@ -32,3 +31,6 @@ def movie_details(movie_id):
     b_images = tmdb_client.get_single_movie_images(movie_id)
     b_image = random.choice(b_images['backdrops'])
     return render_template("movie_details.html", movie=details, cast=cast, b_image=b_image)
+
+if __name__ == '__main__':
+    app.run(debug=True)
