@@ -30,6 +30,7 @@ def test_get_single_movie2(monkeypatch):
    movie = tmdb_client.get_single_movie(movie_id='524434')
    assert movie == mock_movie
 
+
 # test pobierania danych z API TheMovieDB - metoda request.get
 def test_get_single_movie_images1(monkeypatch):
    mock_image = ['test.jpg']
@@ -38,16 +39,13 @@ def test_get_single_movie_images1(monkeypatch):
    response.json.return_value = mock_image
    monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
    image = tmdb_client.get_single_movie_images(movie_id='524434')
-   assert image == mock_image  
+   assert image == mock_image
 
-# test pobierania danych z API TheMovieDB - metoda request.get
 def test_get_single_movie_cast1(monkeypatch):
-   mock_cast = {'name': 'Gemma Chan', 'original_name': 'Gemma Chan'}
+   mock_cast = {'cast':[{'name': 'Gemma Chan'}]}
    requests_mock = Mock()
    response = requests_mock.return_value
-   response.json.return_value["cast"] = mock_cast
+   response.json.return_value = mock_cast
    monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
    test_cast = tmdb_client.get_single_movie_cast(movie_id='524434')
-   assert test_cast == mock_cast
-
-# {'name': 'Gemma Chan', 'original_name': 'Gemma Chan'}
+   assert test_cast == mock_cast['cast']

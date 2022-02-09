@@ -1,9 +1,8 @@
-from distutils.log import error
 from flask import Flask, render_template, request
-from faker import Faker
+#from faker import Faker
 import tmdb_client
 import random
-from random import shuffle
+#from random import shuffle
 
 
 app = Flask(__name__)
