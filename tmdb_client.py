@@ -27,7 +27,7 @@ def get_popular_movies():
 #    return response.json()
 
 def get_movies_list(list_type):
-   return call_tmdb_api(f"movie/{list_type}")
+    return call_tmdb_api(f"movie/{list_type}")
 
 def get_poster_url(poster_api_path, poster_size = "w342"):
     base_url = "https://image.tmdb.org/t/p/"
